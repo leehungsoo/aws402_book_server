@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: aws402_book_server
