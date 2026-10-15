@@ -1,3 +1,42 @@
 spring:
   application:
     name: aws402_book_server
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #  LHS : AWS DB
+    url: jdbc:mysql://database-pacificus.cfi2qycwwxyq.us-east-2.rds.amazonaws.com:3306/db_barobook?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: aws402
+    password: aws402!@#$
+    #   학원 DB
+#    url: jdbc:mysql://58.239.58.243:3306/java402_team1_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+#    username: java402_team1
+#    password: java402_team1_!@#$
+    hikari:
+      connection-test-query: SELECT 1
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  thymeleaf:
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+
+
+server:
+  port: 8080
+mybatis:
+  configuration:
+    cache-enabled: false
+    map-underscore-to-camel-case: false
+    jdbc-type-for-null: null
+  type-aliases-package: bitc.aws402.aws402_book_server.dto
+  mapper-locations: classpath:sql/**/sql-*.xml
+

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.aws402.aws402_book_server.mapper.ApiMapper">
+<!-- tb_books 에 도서 관련 정보 입력 -->
+  <insert id="insertBookInfo" parameterType="BookDTO" useGeneratedKeys="true" keyProperty="idx">
+    INSERT INTO tb_books (
+      title,
+      contents,
+      url,
+      isbn,
+      datetime,
+      authors,
+      publisher,
+      translators,
+      price,
+      sale_price,
+      thumbnail
+    )
+    VALUES(
+      #{title},
+      #{contents},
+      #{url},
+      #{isbn},
+      #{datetime},
+      #{authors},
+      #{publisher},
+      #{translators},
+      #{price},
+      #{sale_price},
+      #{thumbnail}
+    )
+  </insert>
+<!-- isbn 값을 토대로 도서의 정보를 가져옴 -->
+  <select id="selectBookInfo" parameterType="String" resultType="BookDTO">
+    SELECT
+      idx,
+      title,
+      contents,
+      url,
+      isbn,
+      datetime,
+      authors,
+      publisher,
+      translators,
+      price,
+      sale_price,
+      thumbnail
+    FROM
+      tb_books
+    WHERE isbn like concat('%', #{isbn}, '%')
+  </select>
+
+<!--  도서 리스트 (회원정보 기반) -->
+  <select id="selectBookList" parameterType="int" resultType="BookDTO">
+    SELECT
+      bl.idx, bl.b_idx, bl.status, bl.rent_s_date, bl.rent_e_date, bl.finish_date,
+      b.title, b.contents, b.url, b.idx, b.datetime, b.authors, b.publisher, b.translators, b.price, b.sale_price, b.thumbnail
+    FROM
+    tb_book_list bl
+    JOIN tb_books b ON b_idx = b.idx
+    WHERE u_idx = #{idx}
+  </select>
+
+  <!--  도서 리스트 정보 갱신 -->
+  <update id="updateBookList" parameterType="map">
+    UPDATE tb_book_list SET
+    status = #{status},
+    rent_s_date = #{rent_s_date},
+    rent_e_date = #{rent_e_date},
+    finish_date = #{finish_date}
+    WHERE idx=#{idx}
+  </update>
+<!--  회원 유무 (이메일로 존재여부 확인) -->
+  <select id="selectUserByEmail" parameterType="String" resultType="int">
+    SELECT
+      count(*)
+
+    FROM
+      tb_users
+    WHERE
+      email=#{email}
+  </select>
+<!--  회원 유무 (이메일, 비밀번호로 해당하는 회원 정보를 가져옴) -->
+  <select id="selectUserByEmailAndPassword" parameterType="map" resultType="UserDTO">
+    SELECT
+      idx,
+      name,
+      email,
+      target_book_count
+    FROM
+      tb_users
+    WHERE
+      email=#{email} and password=#{password}
+  </select>
+
+<!--  회원가입 -->
+  <insert id="insertUser" parameterType="UserDTO" useGeneratedKeys="true" keyProperty="idx">
+    INSERT INTO tb_users (
+      name,
+      email,
+      password,
+      target_book_count
+    )
+    VALUES (
+      #{name},
+      #{email},
+      #{password},
+      #{target_book_count}
+    )
+  </insert>
+
+<!--  회원수정 -->
+  <update id="updateUser" parameterType="UserDTO">
+    UPDATE tb_users SET
+      name=#{name},
+      password=#{password},
+      target_book_count=#{target_book_count}
+    WHERE idx = #{idx}
+  </update>
+
+
+</mapper>
