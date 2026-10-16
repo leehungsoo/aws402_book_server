@@ -40,3 +40,7 @@ mybatis:
   type-aliases-package: bitc.aws402.aws402_book_server.dto
   mapper-locations: classpath:sql/**/sql-*.xml
 
+firebase:
+  sdk:
+    path: config/aws402-book-server-firebase-adminsdk-fbsvc-4a4f41c957.json
+

@@ -14,4 +14,5 @@ public class UserDTO {
   String email;
   String password;
   String target_book_count;
+  int grade;
 }

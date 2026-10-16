@@ -88,7 +88,8 @@
       idx,
       name,
       email,
-      target_book_count
+      target_book_count,
+      grade
     FROM
       tb_users
     WHERE
@@ -116,7 +117,8 @@
     UPDATE tb_users SET
       name=#{name},
       password=#{password},
-      target_book_count=#{target_book_count}
+      target_book_count=#{target_book_count},
+      grade=#{grade}
     WHERE idx = #{idx}
   </update>
 

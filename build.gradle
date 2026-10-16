@@ -22,6 +22,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
@@ -32,6 +33,24 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // Source: https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
+    implementation 'com.google.firebase:firebase-admin:9.11.0'
+
+    //    firebase-admin 종속성 관련 버전 변경
+    implementation ('io.opentelemetry:opentelemetry-api:1.62.0')
+    implementation ('com.fasterxml.jackson.core:jackson-core:2.22.3')
+    implementation ('org.apache.httpcomponents.core5:httpcore5-h2:5.5-beta2')
+    implementation ('tools.jackson.core:jackson-core:3.2.3')
+    implementation ('com.fasterxml.jackson.core:jackson-databind:2.22.3')
+    implementation ('org.apache.tomcat.embed:tomcat-embed-websocket:11.0.26')
+    implementation ('org.apache.tomcat.embed:tomcat-embed-core:11.0.26')
+    implementation ('org.apache.httpcomponents.client5:httpclient5:5.6.4')
+    implementation ('tools.jackson.core:jackson-databind:3.2.3')
+    implementation ('io.netty:netty-codec-http:4.2.18.Final')
+    implementation ('ch.qos.logback:logback-classic:1.6.3')
+    implementation ('ch.qos.logback:logback-core:1.6.3')
+    implementation ('org.apache.httpcomponents.core5:httpcore5:5.5-beta2')
 }
 
 tasks.named('test') {

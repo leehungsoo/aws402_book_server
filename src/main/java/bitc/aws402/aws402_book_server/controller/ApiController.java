@@ -4,6 +4,7 @@ import bitc.aws402.aws402_book_server.dto.UserDTO;
 import bitc.aws402.aws402_book_server.variable.ReturnText;
 import bitc.aws402.aws402_book_server.dto.BookDTO;
 import bitc.aws402.aws402_book_server.service.ApiService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,14 @@ import java.util.Map;
 public class ApiController {
 
   private final ApiService apiService;
+
+  @GetMapping("/agent")
+  public String getAgent(HttpServletRequest request){
+    String userAgent = request.getHeader("User-Agent");
+    System.out.println(userAgent);
+    return "agent";
+  }
+
 
 //  LHS : 도서 정보 가져오기(단일) isbn 을 토대로 정보를 출력한다
   @GetMapping("/book/info")
