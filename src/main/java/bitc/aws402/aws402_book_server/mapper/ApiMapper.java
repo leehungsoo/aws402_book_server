@@ -19,5 +19,6 @@ public interface ApiMapper {
   public UserDTO selectUserByEmailAndPassword(Map<String, Object> loginData);
   public void insertUser(UserDTO userDTO);
   public int updateUser(UserDTO userDTO);
+  public int updateUserToken(Map<String, Object> tokenData);
 
 }

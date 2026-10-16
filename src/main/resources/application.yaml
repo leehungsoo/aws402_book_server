@@ -40,7 +40,15 @@ mybatis:
   type-aliases-package: bitc.aws402.aws402_book_server.dto
   mapper-locations: classpath:sql/**/sql-*.xml
 
+
+# firebase-admin 을 사용하기위한 키값 경로
 firebase:
   sdk:
-    path: config/aws402-book-server-firebase-adminsdk-fbsvc-4a4f41c957.json
+    path: config/aws402-book-flutter-firebase-adminsdk-fbsvc-dfbd8f884a.json
+logging:
+  level:
+    root: info
+    org:
+      springframework: info
+
 

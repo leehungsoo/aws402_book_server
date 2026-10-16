@@ -130,4 +130,16 @@ public class ApiController {
     }
     return ResponseEntity.ok(map);
   }
+
+  @PutMapping("/user/token")
+  public ResponseEntity<?> userToken(@RequestBody Map<String, Object> tokenData) {
+    int updateResult =  apiService.updateUserToken(tokenData);
+    Map<String, Object> map = new HashMap<>();
+    if(updateResult > 0){
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    }else{
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+    }
+    return ResponseEntity.ok(map);
+  }
 }

@@ -122,5 +122,12 @@
     WHERE idx = #{idx}
   </update>
 
+<!--  회원 fcm 토큰값 업데이트 -->
+  <update id="updateUserToken" parameterType="map">
+    UPDATE tb_users SET
+      token = #{token}
+    WHERE idx = #{idx}
+  </update>
+
 
 </mapper>

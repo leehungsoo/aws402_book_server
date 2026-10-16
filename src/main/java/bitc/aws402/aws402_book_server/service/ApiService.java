@@ -38,10 +38,11 @@ public class ApiService {
   public void insertUser(UserDTO userDTO) {
     apiMapper.insertUser(userDTO);
   }
-
   public int updateUser(UserDTO userDTO) {
     return apiMapper.updateUser(userDTO);
   }
-
+  public int updateUserToken(Map<String, Object> tokenData) {
+    return apiMapper.updateUserToken(tokenData);
+  }
 
 }

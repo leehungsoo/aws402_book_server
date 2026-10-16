@@ -11,4 +11,8 @@ public class BaseController {
   public String index() {
     return "index";
   }
+  @GetMapping({"/db"})
+  public String db() {
+    return "db";
+  }
 }
