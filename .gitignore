@@ -37,4 +37,4 @@ out/
 .vscode/
 
 
-/src/main/java/resources/config/**
+/src/main/resources/config/**
