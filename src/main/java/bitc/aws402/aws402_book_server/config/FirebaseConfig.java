@@ -20,16 +20,17 @@ public class FirebaseConfig {
   private String sdkPath;
 
   @Bean
-  public FirebaseApp initializeFCM() throws IOException {
+  public FirebaseApp initializeFCM(){
     try{
-      System.out.println("initializeFCM");
+      log.info("initialize FirebaseApp");
       FirebaseOptions options = FirebaseOptions.builder()
           .setCredentials(GoogleCredentials.fromStream(getFirebaseInfo()))
           .build();
       if(FirebaseApp.getApps().isEmpty()) {
+        log.info("FirebaseApp has been initialized");
         return FirebaseApp.initializeApp(options);
       }else{
-        System.out.println("Firebase already initialized");
+        log.info("FirebaseApp already initialized");
         return FirebaseApp.getInstance();
       }
     }catch (Exception e){

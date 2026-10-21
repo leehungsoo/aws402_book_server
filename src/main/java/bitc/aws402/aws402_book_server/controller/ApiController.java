@@ -6,6 +6,7 @@ import bitc.aws402.aws402_book_server.dto.BookDTO;
 import bitc.aws402.aws402_book_server.service.ApiService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
@@ -23,7 +25,7 @@ public class ApiController {
   @GetMapping("/agent")
   public String getAgent(HttpServletRequest request){
     String userAgent = request.getHeader("User-Agent");
-    System.out.println(userAgent);
+    log.info("User-Agent: {}", userAgent);
     return "agent";
   }
 
@@ -65,6 +67,7 @@ public class ApiController {
     return ResponseEntity.ok(map);
   }
 
+//  LHS : 도서리스트 수정 (대여, 종료)
   @PutMapping("/book/list")
   public ResponseEntity<?> bookList(@RequestBody Map<String, Object> mapData) {
     int updateResult = apiService.updateBookList(mapData);
@@ -131,6 +134,7 @@ public class ApiController {
     return ResponseEntity.ok(map);
   }
 
+//  LHS : 회원 fcm 토큰값 수정
   @PutMapping("/user/token")
   public ResponseEntity<?> userToken(@RequestBody Map<String, Object> tokenData) {
     int updateResult =  apiService.updateUserToken(tokenData);
