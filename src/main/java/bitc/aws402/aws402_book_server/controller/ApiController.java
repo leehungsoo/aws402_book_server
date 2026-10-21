@@ -29,32 +29,32 @@ public class ApiController {
     return "agent";
   }
 
-
-//  LHS : 도서 정보 가져오기(단일) isbn 을 토대로 정보를 출력한다
-  @GetMapping("/book/info")
-  public ResponseEntity<?> bookInfo(@RequestParam String isbn) {
-    BookDTO bookDTO = apiService.selectBookInfo(isbn);
-    Map<String, Object> map = new HashMap<>();
-    if (bookDTO == null) {
-      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
-    }else{
-      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
-      map.put(ReturnText.RESULT_DATA, bookDTO);
-    }
-    return ResponseEntity.ok(map);
-  }
-
-//  LHS : 도서 정보 DB에 입력
-  @PostMapping("/book/info")
-  public ResponseEntity<?> bookInfo(@RequestBody BookDTO bookDTO) {
-    BookDTO existBook = apiService.selectBookInfo(bookDTO.getIsbn());
-    if (existBook == null) {
-      apiService.insertBookInfo(bookDTO);
-    }
-    Map<String, Object> map = new HashMap<>();
-    map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
-    return ResponseEntity.ok(map);
-  }
+//
+////  LHS : 도서 정보 가져오기(단일) isbn 을 토대로 정보를 출력한다
+//  @GetMapping("/book/info")
+//  public ResponseEntity<?> bookInfo(@RequestParam String isbn) {
+//    BookDTO bookDTO = apiService.selectBookInfo(isbn);
+//    Map<String, Object> map = new HashMap<>();
+//    if (bookDTO == null) {
+//      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+//    }else{
+//      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+//      map.put(ReturnText.RESULT_DATA, bookDTO);
+//    }
+//    return ResponseEntity.ok(map);
+//  }
+//
+////  LHS : 도서 정보 DB에 입력
+//  @PostMapping("/book/info")
+//  public ResponseEntity<?> bookInfo(@RequestBody BookDTO bookDTO) {
+//    BookDTO existBook = apiService.selectBookInfo(bookDTO.getIsbn());
+//    if (existBook == null) {
+//      apiService.insertBookInfo(bookDTO);
+//    }
+//    Map<String, Object> map = new HashMap<>();
+//    map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+//    return ResponseEntity.ok(map);
+//  }
 
 
   //  LHS : 사용자 idx 를 기반으로 등록된 도서 리스트를 출력
