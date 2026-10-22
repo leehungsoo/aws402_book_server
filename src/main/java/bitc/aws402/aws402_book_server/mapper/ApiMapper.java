@@ -20,6 +20,7 @@ public interface ApiMapper {
   public void insertUser(UserDTO userDTO);
   public int updateUser(UserDTO userDTO);
   public int updateUserToken(Map<String, Object> tokenData);
+  public int updateUserByEmail(Map<String, Object> userData);
 
   public List<Map<String, Object>> selectBookListAdmin();
   public Map<String, Object> selectAllCountAdmin();

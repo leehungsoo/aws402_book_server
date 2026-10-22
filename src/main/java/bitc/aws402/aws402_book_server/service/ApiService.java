@@ -44,6 +44,9 @@ public class ApiService {
   public int updateUserToken(Map<String, Object> tokenData) {
     return apiMapper.updateUserToken(tokenData);
   }
+  public int updateUserByEmail(Map<String, Object> userData) {
+    return apiMapper.updateUserByEmail(userData);
+  }
 
   public List<Map<String, Object>> selectBookListAdmin(){
     return apiMapper.selectBookListAdmin();

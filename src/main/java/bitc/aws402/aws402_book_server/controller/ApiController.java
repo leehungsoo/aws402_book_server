@@ -135,6 +135,19 @@ public class ApiController {
     return ResponseEntity.ok(map);
   }
 
+  @PostMapping("/user/edit")
+  public ResponseEntity<?> userEditByEmail(@RequestBody Map<String, Object> userData){
+    int updateResult =  apiService.updateUserByEmail(userData);
+    Map<String, Object> map = new HashMap<>();
+    if(updateResult > 0){
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    }else{
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+    }
+    return ResponseEntity.ok(map);
+  }
+
+
 //  LHS : 회원 fcm 토큰값 수정
   @PutMapping("/user/token")
   public ResponseEntity<?> userToken(@RequestBody Map<String, Object> tokenData) {
