@@ -11,7 +11,7 @@ public class UserDTO {
   String name;
   String email;
   String password;
-  String target_book_count;
+  int targetBookCount;
   int grade;
-  int status;
+  int status; // tb_book_list의 완독수를 가져오기 위함
 }

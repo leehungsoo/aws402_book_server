@@ -50,4 +50,5 @@
         ORDER BY bl.finish_date DESC
     </select>
 
+
 </mapper>

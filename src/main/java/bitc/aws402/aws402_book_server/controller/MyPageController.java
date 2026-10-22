@@ -24,6 +24,7 @@ public class MyPageController {
         log.info("--- 마이페이지 정보 조회 요청 (이메일: {}) ---", email);
         UserDTO userDTO = userService.getUserMyPage(email);
 
+
         if (userDTO != null) {
             return ResponseEntity.ok(userDTO);
         } else {

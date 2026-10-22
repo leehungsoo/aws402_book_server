@@ -13,4 +13,5 @@ public interface UserMapper {
     int updateTargetBookCount(UserDTO userDTO);
     int updateUserProfile(UserDTO userDTO);
     List<Map<String, Object>> selectCompletedBooksByEmail(@Param("email") String email);
+
 }

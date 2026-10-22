@@ -18,6 +18,7 @@ public class UserController {
             @RequestParam(value = "token", required = false) String firebaseToken,
             @RequestParam(value = "fcmToken", required = false) String fcmToken
     ) {
+
         System.out.println("=== 로그인 API 요청 수신 ===");
         System.out.println("이메일: " + email);
         System.out.println("파이어베이스 토큰: " + firebaseToken);
