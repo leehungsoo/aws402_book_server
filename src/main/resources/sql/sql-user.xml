@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.aws402.aws402_book_server.mapper.UserMapper">
+
+    <!-- 마이페이지 회원 정보 및 완독 책 수 동적 조회 -->
+    <select id="selectUserMyPage" parameterType="String" resultType="bitc.aws402.aws402_book_server.dto.UserDTO">
+        SELECT
+        u.idx,
+        u.name,
+        u.email,
+        u.target_book_count AS targetBookCount,
+        u.grade,
+        (SELECT COUNT(*) FROM tb_book_list bl WHERE bl.u_idx = u.idx AND bl.status = 100) AS status
+        FROM
+        tb_users u
+        WHERE
+        u.email = #{email}
+    </select>
+
+    <!-- 목표 권수 수정 -->
+    <update id="updateTargetBookCount" parameterType="bitc.aws402.aws402_book_server.dto.UserDTO">
+        UPDATE tb_users
+        SET target_book_count = #{targetBookCount},
+        grade = #{grade}
+        WHERE email = #{email}
+    </update>
+
+    <!-- 내 정보 수정 -->
+    <update id="updateUserProfile" parameterType="bitc.aws402.aws402_book_server.dto.UserDTO">
+        UPDATE tb_users
+        SET name = #{name},
+        grade = #{grade}
+        <if test="password != null and password != ''">
+            , password = #{password}
+        </if>
+        WHERE email = #{email}
+    </update>
+
+    <!-- 완독 도서 통계 리스트 조회 (status = 100) -->
+    <select id="selectCompletedBooksByEmail" parameterType="String" resultType="map">
+        SELECT
+        b.title,
+        bl.finish_date
+        FROM tb_book_list bl
+        JOIN tb_users u ON bl.u_idx = u.idx
+        JOIN tb_books b ON bl.b_idx = b.idx
+        WHERE u.email = #{email} AND bl.status = 100
+        ORDER BY bl.finish_date DESC
+    </select>
+
+</mapper>
