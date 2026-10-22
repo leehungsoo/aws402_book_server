@@ -21,4 +21,9 @@ public interface ApiMapper {
   public int updateUser(UserDTO userDTO);
   public int updateUserToken(Map<String, Object> tokenData);
 
+  public List<Map<String, Object>> selectBookListAdmin();
+  public Map<String, Object> selectAllCountAdmin();
+  public List<Map<String, Object>> selectAllUsersAdmin();
+  public int updateUserGrade(@Param("idx") int idx, @Param("grade") int grade);
+  public int deleteUserAdmin(@Param("idx") int idx);
 }

@@ -41,8 +41,10 @@ dependencies {
     implementation ('io.opentelemetry:opentelemetry-api:1.62.0')
     implementation ('com.fasterxml.jackson.core:jackson-core:2.22.3')
     implementation ('org.apache.httpcomponents.core5:httpcore5-h2:5.5-beta2')
-    implementation ('tools.jackson.core:jackson-core:3.2.3')
     implementation ('com.fasterxml.jackson.core:jackson-databind:2.22.3')
+    implementation ('tools.jackson.core:jackson-core:3.2.3')
+    // Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.22'
     implementation ('org.apache.tomcat.embed:tomcat-embed-websocket:11.0.26')
     implementation ('org.apache.tomcat.embed:tomcat-embed-core:11.0.26')
     implementation ('org.apache.httpcomponents.client5:httpclient5:5.6.4')

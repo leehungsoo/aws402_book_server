@@ -130,4 +130,35 @@
   </update>
 
 
+<!--  관리자 회원, 도서 리스트 -->
+  <select id="selectBookListAdmin" resultType="map">
+    select bl.idx, bl.b_idx, bl.u_idx as u_id, bl.status, date_format(bl.rent_s_date, '%Y-%m-%d') as rent_s_date, date_format(bl.rent_e_date, '%Y-%m-%d') as rent_e_date, date_format(bl.finish_date, '%Y-%m-%d') as finish_date, datediff(now(), rent_e_date) as d_day, u.name, b.title
+    from tb_book_list bl
+    join tb_books b on (b.idx=bl.b_idx)
+    join tb_users u on (u.idx=bl.u_idx)
+    order by bl.idx desc
+  </select>
+
+<!--  관리자 데이터 갯수 가져오기 -->
+  <select id="selectAllCountAdmin" resultType="map">
+    select
+    (select count(*) from tb_users) as total_users,
+    (select count(*) from tb_books) as total_books,
+    (select count(*) from tb_book_list where status in(1, 2, 3)) as active_rents
+  </select>
+
+<!--  관리자 모든 사용자 정보 가져오기-->
+  <select id="selectAllUsersAdmin" resultType="map">
+    select idx as u_idx, name, email, password, token, target_book_count, grade from tb_users order by idx desc
+  </select>
+
+<!--  관리자 사용자 등급 변경 -->
+  <update id="updateUserGrade" parameterType="map">
+    update tb_users set grade=#{grade} where idx = #{idx}
+  </update>
+
+<!--  관리자 사용자 삭제 -->
+  <delete id="deleteUserAdmin" parameterType="int">
+    delete from tb_users where idx=#{idx}
+  </delete>
 </mapper>

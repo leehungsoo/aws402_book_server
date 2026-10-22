@@ -45,4 +45,23 @@ public class ApiService {
     return apiMapper.updateUserToken(tokenData);
   }
 
+  public List<Map<String, Object>> selectBookListAdmin(){
+    return apiMapper.selectBookListAdmin();
+  }
+
+  public Map<String, Object> selectAllCountAdmin(){
+    return apiMapper.selectAllCountAdmin();
+  }
+  public List<Map<String, Object>> selectAllUsersAdmin(){
+    return apiMapper.selectAllUsersAdmin();
+  }
+
+  public int updateUserGrade(int idx, int grade){
+    return apiMapper.updateUserGrade(idx, grade);
+  }
+
+  public int deleteUserAdmin(int idx){
+    return apiMapper.deleteUserAdmin(idx);
+  }
+
 }

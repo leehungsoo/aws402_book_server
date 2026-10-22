@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin("https://barobook-landing.vercel.app/")
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -146,4 +147,59 @@ public class ApiController {
     }
     return ResponseEntity.ok(map);
   }
+
+
+//  LHS : 관리자
+  @GetMapping("/admin/book/list")
+  public ResponseEntity<?> adminBookList() {
+    Map<String, Object> map = new HashMap<>();
+    List<Map<String, Object>> bookList = apiService.selectBookListAdmin();
+    map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    map.put(ReturnText.RESULT_DATA, bookList);
+    return ResponseEntity.ok(map);
+  }
+
+  @GetMapping("/admin/count")
+  public ResponseEntity<?> adminAllCount() {
+    Map<String, Object> map = new HashMap<>();
+    Map<String, Object> countMap = apiService.selectAllCountAdmin();
+    map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    map.put(ReturnText.RESULT_DATA, countMap);
+    return ResponseEntity.ok(map);
+  }
+
+  @GetMapping("/admin/users")
+  public ResponseEntity<?> adminUsers() {
+    Map<String, Object> map = new HashMap<>();
+    List<Map<String, Object>> userList = apiService.selectAllUsersAdmin();
+    map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    map.put(ReturnText.RESULT_DATA, userList);
+    return ResponseEntity.ok(map);
+  }
+
+  @PutMapping("/admin/users/{u_idx}")
+  public ResponseEntity<?> updateUserGrade(@PathVariable int u_idx, @RequestBody Map<String, Object> requestData) {
+    Map<String, Object> map = new HashMap<>();
+    int updateResult = apiService.updateUserGrade(u_idx, Integer.parseInt(requestData.get("grade").toString()));
+    if(updateResult > 0){
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    }else{
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+    }
+    return ResponseEntity.ok(map);
+  }
+
+  @DeleteMapping("/admin/users/{u_idx}")
+  public ResponseEntity<?> deleteUserAdmin(@PathVariable int u_idx) {
+    Map<String, Object> map = new HashMap<>();
+    int deleteResult = apiService.deleteUserAdmin(u_idx);
+    if(deleteResult > 0){
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    }else{
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+    }
+    return ResponseEntity.ok(map);
+  }
 }
+
+
