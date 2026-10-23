@@ -18,6 +18,11 @@ public interface ApiMapper {
 
   public UserDTO selectUserByEmail(@Param("email") String email);
   public UserDTO selectUserByEmailAndPassword(Map<String, Object> loginData);
+//  추형호*****************************************************************************************
+  public UserDTO selectUserInfoByEmail(@Param("email") String email);
+  public int updateUserTargetBookCount(Map<String, Object> targetData);
+  public int updateUserReadingProgress(Map<String, Object> progressData);
+//  *********************************************************************************************************
   public void insertUser(UserDTO userDTO);
   public int updateUser(UserDTO userDTO);
   public int updateUserToken(Map<String, Object> tokenData);

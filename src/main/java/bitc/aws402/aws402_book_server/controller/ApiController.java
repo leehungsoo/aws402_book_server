@@ -118,6 +118,120 @@ public class ApiController {
     return ResponseEntity.ok(map);
   }
 
+  // 마이페이지에 필요한 사용자 정보 조회
+  @GetMapping("/user/info")
+  public ResponseEntity<?> userInfo(@RequestParam String email) {
+    UserDTO userDTO = apiService.selectUserInfoByEmail(email);
+
+    Map<String, Object> map = new HashMap<>();
+
+    if (userDTO != null) {
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+      map.put(ReturnText.RESULT_DATA, userDTO);
+    } else {
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+    }
+
+    return ResponseEntity.ok(map);
+  }
+// 추형호 ***********************************************************************
+  // 마이페이지 목표 권수만 수정
+  @PutMapping("/user/target")
+  public ResponseEntity<?> updateUserTargetBookCount(
+      @RequestBody Map<String, Object> targetData) {
+
+    Map<String, Object> map = new HashMap<>();
+
+    Object emailValue = targetData.get("email");
+    Object targetValue = targetData.get("target_book_count");
+
+    if (emailValue == null || targetValue == null) {
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+      return ResponseEntity.badRequest().body(map);
+    }
+
+    String email = emailValue.toString();
+    UserDTO userDTO = apiService.selectUserInfoByEmail(email);
+
+    if (userDTO == null) {
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+      map.put("message", "해당 이메일의 사용자 정보가 없습니다.");
+      return ResponseEntity.ok(map);
+    }
+
+    // 이메일에 해당하는 사용자가 확인된 경우 목표 권수만 갱신
+    apiService.updateUserTargetBookCount(targetData);
+
+    map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    return ResponseEntity.ok(map);
+  }
+
+  // 누적 완독 권수와 독서 등급 저장
+  @PutMapping("/user/reading-progress")
+  public ResponseEntity<?> updateUserReadingProgress(
+      @RequestBody Map<String, Object> progressData) {
+
+    Map<String, Object> resultMap = new HashMap<>();
+
+    Object emailValue = progressData.get("email");
+    Object countValue = progressData.get("read_book_count");
+
+    if (emailValue == null || countValue == null) {
+      resultMap.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+      resultMap.put("message", "이메일 또는 완독 권수가 없습니다.");
+      return ResponseEntity.badRequest().body(resultMap);
+    }
+
+    String email = emailValue.toString().trim();
+    int requestedCount;
+
+    try {
+      requestedCount = Integer.parseInt(countValue.toString());
+    } catch (NumberFormatException e) {
+      resultMap.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+      resultMap.put("message", "완독 권수는 숫자여야 합니다.");
+      return ResponseEntity.badRequest().body(resultMap);
+    }
+
+    if (email.isEmpty() || requestedCount < 0) {
+      resultMap.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+      resultMap.put("message", "이메일 또는 완독 권수가 올바르지 않습니다.");
+      return ResponseEntity.badRequest().body(resultMap);
+    }
+
+    // 이메일로 사용자가 실제 등록되어 있는지 확인
+    UserDTO existingUser = apiService.selectUserInfoByEmail(email);
+
+    if (existingUser == null) {
+      resultMap.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+      resultMap.put("message", "해당 이메일의 사용자 정보가 없습니다.");
+      return ResponseEntity.ok(resultMap);
+    }
+
+    // DB에 누적 완독 권수와 독서 등급 반영
+    Map<String, Object> updateData = new HashMap<>();
+    updateData.put("email", email);
+    updateData.put("read_book_count", requestedCount);
+
+    apiService.updateUserReadingProgress(updateData);
+
+    // 갱신된 사용자 정보를 다시 조회
+    UserDTO updatedUser = apiService.selectUserInfoByEmail(email);
+
+    if (updatedUser != null) {
+      resultMap.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+      resultMap.put(ReturnText.RESULT_DATA, updatedUser);
+      return ResponseEntity.ok(resultMap);
+    }
+
+    resultMap.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+    resultMap.put("message", "독서 정보 조회에 실패했습니다.");
+
+    return ResponseEntity.ok(resultMap);
+  }
+//**********************************************************************************************
+
+
 //  LHS : 회원가입 호출
   @PostMapping("/user/signup")
   public ResponseEntity<?> userSignup(@RequestBody UserDTO userDTO) {

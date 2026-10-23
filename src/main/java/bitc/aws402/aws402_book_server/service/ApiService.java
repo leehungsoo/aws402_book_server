@@ -37,6 +37,16 @@ public class ApiService {
   public UserDTO selectUserByEmailAndPassword(Map<String, Object> loginData) {
     return apiMapper.selectUserByEmailAndPassword(loginData);
   }
+  public UserDTO selectUserInfoByEmail(String email) {
+    return apiMapper.selectUserInfoByEmail(email);
+  }
+
+  public int updateUserTargetBookCount(Map<String, Object> targetData) {
+    return apiMapper.updateUserTargetBookCount(targetData);
+  }
+  public int updateUserReadingProgress(Map<String, Object> progressData) {
+    return apiMapper.updateUserReadingProgress(progressData);
+  }
 
   public void insertUser(UserDTO userDTO) {
     apiMapper.insertUser(userDTO);

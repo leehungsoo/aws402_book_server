@@ -98,6 +98,22 @@
     WHERE
       email=#{email}
   </select>
+
+  <select id="selectUserInfoByEmail"
+          parameterType="String"
+          resultType="UserDTO">
+    SELECT
+    idx,
+    name,
+    email,
+    target_book_count,
+    grade,
+    read_book_count,
+    reading_grade
+    FROM tb_users
+    WHERE email = #{email}
+  </select>
+
 <!--  회원 유무 (이메일, 비밀번호로 해당하는 회원 정보를 가져옴) -->
   <select id="selectUserByEmailAndPassword" parameterType="map" resultType="UserDTO">
     SELECT
@@ -111,6 +127,35 @@
     WHERE
       email=#{email} and password=#{password}
   </select>
+
+  <!-- 이메일을 기준으로 목표 권수만 수정 -->
+  <update id="updateUserTargetBookCount" parameterType="map">
+    UPDATE tb_users
+    SET target_book_count = #{target_book_count}
+    WHERE email = #{email}
+  </update>
+
+  <!-- 누적 완독 권수와 독서 등급 업데이트 -->
+  <update id="updateUserReadingProgress" parameterType="map">
+    UPDATE tb_users
+    SET
+    reading_grade = GREATEST(
+    reading_grade,
+    CASE
+    WHEN GREATEST(read_book_count, #{read_book_count}) >= 3000 THEN 5
+    WHEN GREATEST(read_book_count, #{read_book_count}) >= 1000 THEN 4
+    WHEN GREATEST(read_book_count, #{read_book_count}) >= 500 THEN 3
+    WHEN GREATEST(read_book_count, #{read_book_count}) >= 200 THEN 2
+    WHEN GREATEST(read_book_count, #{read_book_count}) >= 100 THEN 1
+    ELSE 0
+    END
+    ),
+    read_book_count = GREATEST(
+    read_book_count,
+    #{read_book_count}
+    )
+    WHERE email = #{email}
+  </update>
 
 <!--  회원가입 -->
   <insert id="insertUser" parameterType="UserDTO" useGeneratedKeys="true" keyProperty="idx">
