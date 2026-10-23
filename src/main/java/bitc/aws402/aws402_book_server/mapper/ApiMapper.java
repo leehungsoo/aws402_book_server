@@ -12,15 +12,17 @@ import java.util.Map;
 public interface ApiMapper {
   public void insertBookInfo(BookDTO bookDTO);
   public BookDTO selectBookInfo(@Param("isbn") String isbn);
-  public List<BookDTO> selectBookList(@Param("idx") int idx);
+  public List<Map<String, Object>> selectBookList(@Param("idx") int idx);
+  public List<Map<String, Object>> selectBookListEmail(@Param("email") String email);
   public int updateBookList(Map<String, Object> mapData);
 
-  public int selectUserByEmail(@Param("email") String email);
+  public UserDTO selectUserByEmail(@Param("email") String email);
   public UserDTO selectUserByEmailAndPassword(Map<String, Object> loginData);
   public void insertUser(UserDTO userDTO);
   public int updateUser(UserDTO userDTO);
   public int updateUserToken(Map<String, Object> tokenData);
   public int updateUserByEmail(Map<String, Object> userData);
+  public int updateUserTargetBook(Map<String, Object> userData);
 
   public List<Map<String, Object>> selectBookListAdmin();
   public Map<String, Object> selectAllCountAdmin();

@@ -61,7 +61,16 @@ public class ApiController {
   //  LHS : 사용자 idx 를 기반으로 등록된 도서 리스트를 출력
   @GetMapping("/book/list")
   public ResponseEntity<?> bookList(@RequestParam int idx) {
-    List<BookDTO> bookDTOList = apiService.selectBookList(idx);
+    List<Map<String, Object>> bookDTOList = apiService.selectBookList(idx);
+    Map<String, Object> map = new HashMap<>();
+    map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    map.put(ReturnText.RESULT_DATA, bookDTOList);
+    return ResponseEntity.ok(map);
+  }
+
+  @GetMapping("/book/list/email")
+  public ResponseEntity<?> bookListEmail(@RequestParam String email) {
+    List<Map<String, Object>> bookDTOList = apiService.selectBookListEmail(email);
     Map<String, Object> map = new HashMap<>();
     map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
     map.put(ReturnText.RESULT_DATA, bookDTOList);
@@ -84,10 +93,11 @@ public class ApiController {
 //  LHS : 사용자 정보중에 이메일에 해당하는 사용자가 있는지 확인
   @GetMapping("/user/exists")
   public ResponseEntity<?> userExists(@RequestParam String email) {
-    int userCount = apiService.selectUserByEmail(email);
+    UserDTO userDTO = apiService.selectUserByEmail(email);
     Map<String, Object> map = new HashMap<>();
-    if(userCount == 1){
+    if(userDTO!=null){
       map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+      map.put(ReturnText.RESULT_DATA, userDTO);
     }else{
       map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
     }
@@ -152,6 +162,18 @@ public class ApiController {
   @PutMapping("/user/token")
   public ResponseEntity<?> userToken(@RequestBody Map<String, Object> tokenData) {
     int updateResult =  apiService.updateUserToken(tokenData);
+    Map<String, Object> map = new HashMap<>();
+    if(updateResult > 0){
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);
+    }else{
+      map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_FAILURE);
+    }
+    return ResponseEntity.ok(map);
+  }
+
+  @PutMapping("/user/targetbook")
+  public ResponseEntity<?> userTargetBook(@RequestBody Map<String, Object> userData) {
+    int updateResult =  apiService.updateUserTargetBook(userData);
     Map<String, Object> map = new HashMap<>();
     if(updateResult > 0){
       map.put(ReturnText.RESULT_TEXT, ReturnText.RESULT_SUCCESS);

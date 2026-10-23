@@ -21,14 +21,17 @@ public class ApiService {
   public BookDTO selectBookInfo(String isbn) {
     return apiMapper.selectBookInfo(isbn);
   }
-  public List<BookDTO> selectBookList(int idx) {
+  public List<Map<String, Object>> selectBookList(int idx) {
     return apiMapper.selectBookList(idx);
+  }
+  public List<Map<String, Object>> selectBookListEmail(String email) {
+    return apiMapper.selectBookListEmail(email);
   }
   public int updateBookList(Map<String, Object> mapData){
     return apiMapper.updateBookList(mapData);
   }
 
-  public int selectUserByEmail(String email){
+  public UserDTO selectUserByEmail(String email){
     return apiMapper.selectUserByEmail(email);
   }
   public UserDTO selectUserByEmailAndPassword(Map<String, Object> loginData) {
@@ -46,6 +49,9 @@ public class ApiService {
   }
   public int updateUserByEmail(Map<String, Object> userData) {
     return apiMapper.updateUserByEmail(userData);
+  }
+  public int updateUserTargetBook(Map<String, Object> userData) {
+    return apiMapper.updateUserTargetBook(userData);
   }
 
   public List<Map<String, Object>> selectBookListAdmin(){

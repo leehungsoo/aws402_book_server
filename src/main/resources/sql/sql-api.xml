@@ -53,7 +53,7 @@
   </select>
 
 <!--  도서 리스트 (회원정보 기반) -->
-  <select id="selectBookList" parameterType="int" resultType="BookDTO">
+  <select id="selectBookList" parameterType="int" resultType="map">
     SELECT
       bl.idx, bl.b_idx, bl.status, bl.rent_s_date, bl.rent_e_date, bl.finish_date,
       b.title, b.contents, b.url, b.idx, b.datetime, b.authors, b.publisher, b.translators, b.price, b.sale_price, b.thumbnail
@@ -61,6 +61,19 @@
     tb_book_list bl
     JOIN tb_books b ON b_idx = b.idx
     WHERE u_idx = #{idx}
+  </select>
+
+  <!--  도서 리스트 (이메일 기반) -->
+  <select id="selectBookListEmail" parameterType="String" resultType="map">
+    SELECT
+    bl.idx, bl.b_idx, bl.status, date_format(bl.rent_s_date, '%Y-%m-%d') as rent_s_date, date_format(bl.rent_e_date, '%Y-%m-%d') as rent_e_date, date_format(bl.finish_date, '%Y-%m-%d') as finish_date,
+    b.title, b.contents, b.url, b.idx, b.datetime, b.authors, b.publisher, b.translators, b.price, b.sale_price, b.thumbnail
+    FROM
+    tb_book_list bl
+    JOIN tb_books b ON b_idx = b.idx
+    JOIN tb_users u ON bl.u_idx = u.idx
+    WHERE u.email = #{email}
+    ORDER BY bl.idx desc
   </select>
 
   <!--  도서 리스트 정보 갱신 -->
@@ -73,10 +86,13 @@
     WHERE idx=#{idx}
   </update>
 <!--  회원 유무 (이메일로 존재여부 확인) -->
-  <select id="selectUserByEmail" parameterType="String" resultType="int">
+  <select id="selectUserByEmail" parameterType="String" resultType="UserDTO">
     SELECT
-      count(*)
-
+      idx,
+      name,
+      email,
+      target_book_count,
+      grade
     FROM
       tb_users
     WHERE
@@ -130,15 +146,21 @@
   </update>
 
   <update id="updateUserByEmail" parameterType="map">
-    UPDATE tb_users set
+    UPDATE tb_users
     <set>
       <if test="name != null">
         name=#{name},
       </if>
       <if test="password != null">
-        password=#{password}
+        password=#{password},
       </if>
     </set>
+    where email=#{email}
+  </update>
+
+  <update id="updateUserTargetBook" parameterType="map">
+    update tb_users set
+    target_book_count = #{targetBookCount}
     where email=#{email}
   </update>
 
